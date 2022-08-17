@@ -1,0 +1,29 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('continous download')
+        {
+            steps
+            {
+               git 'https://github.com/pamu12/maveenproject.git'
+            }
+        }
+        stage('continous build')
+        {
+            steps
+            {
+                sh 'mvn package '
+            }
+        }
+        stage('continous deployment')
+        {
+            steps
+            {
+                deploy adapters: [tomcat9(credentialsId: 'f6a657e7-0ffb-49ec-920f-7ba7f36ed13e', path: '', url: 'http://172.31.16.11:8080/')], contextPath: 'sample', war: '**\\*.war'
+            }
+        }
+        
+    }
+}
