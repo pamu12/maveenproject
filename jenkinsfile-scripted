@@ -1,0 +1,16 @@
+node('built-in')
+{
+    stage('Continuous download ') 
+    {
+    git 'https://github.com/pamu12/maveenproject.git'
+    }
+    stage('Continuous build ') 
+    {
+     sh 'mvn package'
+    }
+    stage('Continuous deployment ') 
+    {
+    deploy adapters: [tomcat9(credentialsId: 'f6a657e7-0ffb-49ec-920f-7ba7f36ed13e', path: '', url: 'http://172.31.16.11:8080/')], contextPath: 'sample', war: '**\\*.war'
+    }
+
+}
